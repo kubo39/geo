@@ -70,13 +70,33 @@ struct LineString(T)
 {
     Coordinate!T[] coords;
     alias coords this;
+
+    auto lines()
+    {
+        import std.algorithm : map;
+        import std.range : slide;
+        return coords
+            .slide(2)
+            .map!(a => Line!T(a[0], a[1]));
+    }
 }
 
 unittest
 {
-    auto coords = [Coordinate!float(1.0f, 2.0f), Coordinate!float(3.0f, 4.0f)];
+    auto coords = [
+        Coordinate!float(1.0f, 2.0f),
+        Coordinate!float(3.0f, 4.0f),
+        Coordinate!float(5.0f, 6.0f)
+        ];
     auto lineString = LineString!float(coords);
-    assert(lineString.length == 2);
+    assert(lineString.length == 3);
+
+    import std.array : array;
+    assert(lineString.lines.array == [
+               Line!float(Coordinate!float(1.0f, 2.0f), Coordinate!float(3.0f, 4.0f)),
+               Line!float(Coordinate!float(3.0f, 4.0f), Coordinate!float(5.0f, 6.0f)),
+               ]
+        );
 }
 
 /// A bounded two-dimensional area.
