@@ -6,9 +6,30 @@ struct Coordinate(T)
 {
     T x, y;
 
-    typeof(this) opUnary(string s)() if (s == "-")
+    typeof(this) opUnary(string op)() if (op == "-")
     {
         return Coordinate(-x, -y);
+    }
+
+    typeof(this) opBinary(string op)(typeof(this) other)
+    {
+        static if (op == "+")
+        {
+            return Coordinate(this.x + other.x, this.y + other.y);
+        }
+        else static if (op == "-")
+        {
+            return Coordinate(this.x - other.x, this.y - other.y);
+        }
+        else static if (op == "*")
+        {
+            return Coordinate(this.x * other.x, this.y * other.y);
+        }
+        else static if (op == "/")
+        {
+            return Coordinate(this.x / other.x, this.y / other.y);
+        }
+        else static assert(false, "Operator" ~ op ~ " no implemented");
     }
 }
 
@@ -16,6 +37,10 @@ unittest
 {
     auto coord = Coordinate!int(1, 2);
     assert(-coord == Coordinate!int(-1, -2));
+    assert(coord + coord == Coordinate!int(2, 4));
+    assert(coord - coord == Coordinate!int(0, 0));
+    assert(coord * coord == Coordinate!int(1, 4));
+    assert(coord / coord == Coordinate!int(1, 1));
 }
 
 /// A collection of two or more Coordinates.
