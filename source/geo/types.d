@@ -6,12 +6,12 @@ struct Coordinate(T)
 {
     T x, y;
 
-    typeof(this) opUnary(string op)() if (op == "-")
+    typeof(this) opUnary(string op)() const if (op == "-")
     {
         return Coordinate(-x, -y);
     }
 
-    typeof(this) opBinary(string op)(typeof(this) other)
+    typeof(this) opBinary(string op)(typeof(this) other) const
     {
         static if (op == "+")
         {
@@ -35,12 +35,33 @@ struct Coordinate(T)
 
 unittest
 {
-    auto coord = Coordinate!int(1, 2);
+    const coord = Coordinate!int(1, 2);
     assert(-coord == Coordinate!int(-1, -2));
     assert(coord + coord == Coordinate!int(2, 4));
     assert(coord - coord == Coordinate!int(0, 0));
     assert(coord * coord == Coordinate!int(1, 4));
     assert(coord / coord == Coordinate!int(1, 1));
+}
+
+/// A line segment made up of exactly two Coordinates.
+struct Line(T)
+    if (__traits(isArithmetic, T))
+{
+    Coordinate!T start;
+    Coordinate!T end;
+
+    Coordinate!T delta() const
+    {
+        return end - start;
+    }
+}
+
+unittest
+{
+    const start = Coordinate!float(1.0f, 2.0f);
+    const end = Coordinate!float(3.0f, 4.0f);
+    const line = Line!float(start, end);
+    assert(line.delta == Coordinate!float(2.0f, 2.0f));
 }
 
 /// A collection of two or more Coordinates.
