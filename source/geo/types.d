@@ -5,6 +5,17 @@ struct Coordinate(T)
     if (__traits(isArithmetic, T))
 {
     T x, y;
+
+    typeof(this) opUnary(string s)() if (s == "-")
+    {
+        return Coordinate(-x, -y);
+    }
+}
+
+unittest
+{
+    auto coord = Coordinate!int(1, 2);
+    assert(-coord == Coordinate!int(-1, -2));
 }
 
 /// A collection of two or more Coordinates.
