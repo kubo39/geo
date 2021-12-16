@@ -89,7 +89,7 @@ struct Point(T)
 
     T dot(typeof(this) other)
     {
-        return this.coord.x * other.coord.x + this.coord.y * other.coord.y;
+        return cast(T)(this.coord.x * other.coord.x + this.coord.y * other.coord.y);
     }
 }
 
@@ -179,6 +179,16 @@ template isGeometry(X...)
     if (X.length == 1 && is(X[0]))
 {
     enum isGeometry =
+        is(X[0] == Point!byte) ||
+        is(X[0] == Point!ubyte) ||
+        is(X[0] == Point!short) ||
+        is(X[0] == Point!ushort) ||
+        is(X[0] == Point!int) ||
+        is(X[0] == Point!uint) ||
+        is(X[0] == Point!long) ||
+        is(X[0] == Point!ulong) ||
+        is(X[0] == Point!float) ||
+        is(X[0] == Point!double) ||
         is(X[0] == LineString!byte) ||
         is(X[0] == LineString!ubyte) ||
         is(X[0] == LineString!short) ||
@@ -208,6 +218,16 @@ static assert(isGeometry!(Polygon!double));
 
 private import std.meta : AliasSeq;
 alias GeometryTypeList = AliasSeq!(
+    Point!byte,
+    Point!ubyte,
+    Point!short,
+    Point!ushort,
+    Point!int,
+    Point!uint,
+    Point!long,
+    Point!ulong,
+    Point!float,
+    Point!double,
     LineString!byte,
     LineString!ubyte,
     LineString!short,
