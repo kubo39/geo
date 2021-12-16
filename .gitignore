@@ -13,3 +13,4 @@ geo-test-*
 *.o
 *.obj
 *.lst
+libgeo.a
