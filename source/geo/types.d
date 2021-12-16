@@ -45,6 +45,64 @@ unittest
     assert(coord / coord == Coordinate!int(1, 1));
 }
 
+/// A single point in 2D space.
+struct Point(T)
+    if (isNumeric!T)
+{
+    Coordinate!T coord;
+
+    this(T x, T y)
+    {
+        this.coord = Coordinate!T(x, y);
+    }
+
+    this(Coordinate!T coord)
+    {
+        this(coord.x, coord.y);
+    }
+
+    typeof(this) opUnary(string op)() const if (op == "-")
+    {
+        return Point!T(-this.coord);
+    }
+
+    typeof(this) opBinary(string op)(typeof(this) other) const
+    {
+        static if (op == "+")
+        {
+            return Point!T(this.coord + other.coord);
+        }
+        else static if (op == "-")
+        {
+            return Point!T(this.coord - other.coord);
+        }
+        else static if (op == "*")
+        {
+            return Point!T(this.coord * other.coord);
+        }
+        else static if (op == "/")
+        {
+            return Point!T(this.coord / other.coord);
+        }
+        else static assert(false, "Operator" ~ op ~ " no implemented");
+    }
+
+    T dot(typeof(this) other)
+    {
+        return this.coord.x * other.coord.x + this.coord.y * other.coord.y;
+    }
+}
+
+unittest
+{
+    const p = Point!int(1, 2);
+    assert(-p == Point!int(-1, -2));
+    assert(p + p == Point!int(2, 4));
+    assert(p - p == Point!int(0, 0));
+    assert(p * p == Point!int(1, 4));
+    assert(p / p == Point!int(1, 1));
+}
+
 /// A line segment made up of exactly two Coordinates.
 struct Line(T)
     if (isNumeric!T)
