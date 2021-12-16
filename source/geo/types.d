@@ -189,6 +189,16 @@ template isGeometry(X...)
         is(X[0] == Point!ulong) ||
         is(X[0] == Point!float) ||
         is(X[0] == Point!double) ||
+        is(X[0] == Line!byte) ||
+        is(X[0] == Line!ubyte) ||
+        is(X[0] == Line!short) ||
+        is(X[0] == Line!ushort) ||
+        is(X[0] == Line!int) ||
+        is(X[0] == Line!uint) ||
+        is(X[0] == Line!long) ||
+        is(X[0] == Line!ulong) ||
+        is(X[0] == Line!float) ||
+        is(X[0] == Line!double) ||
         is(X[0] == LineString!byte) ||
         is(X[0] == LineString!ubyte) ||
         is(X[0] == LineString!short) ||
@@ -228,6 +238,16 @@ alias GeometryTypeList = AliasSeq!(
     Point!ulong,
     Point!float,
     Point!double,
+    Line!byte,
+    Line!ubyte,
+    Line!short,
+    Line!ushort,
+    Line!int,
+    Line!uint,
+    Line!long,
+    Line!ulong,
+    Line!float,
+    Line!double,
     LineString!byte,
     LineString!ubyte,
     LineString!short,
