@@ -124,7 +124,7 @@ unittest
     assert(line.delta == Coordinate!float(2.0f, 2.0f));
 }
 
-/// A collection of two or more Coordinates.
+/// An ordered collection of two or more Coordinates.
 struct LineString(T)
     if (isNumeric!T)
 {
@@ -138,6 +138,11 @@ struct LineString(T)
         return coords
             .slide(2)
             .map!(a => Line!T(a[0], a[1]));
+    }
+
+    bool isClosed()
+    {
+        return coords[0] == coords[$-1];
     }
 }
 
@@ -157,6 +162,8 @@ unittest
                Line!float(Coordinate!float(3.0f, 4.0f), Coordinate!float(5.0f, 6.0f)),
                ]
         );
+
+    assert(!lineString.isClosed);
 }
 
 /// A bounded two-dimensional area.
