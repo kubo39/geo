@@ -170,3 +170,6 @@ alias GeometryTypeList = AliasSeq!(
     Polygon!ulong,
     Polygon!float,
     Polygon!double);
+
+static foreach (T; GeometryTypeList)
+    static assert(isGeometry!T);
