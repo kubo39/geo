@@ -65,3 +65,9 @@ struct Polygon(T)
     LineString!T exterior;
     LineString!T[] interiors;
 }
+
+unittest
+{
+    auto lineString = LineString!float([Coordinate!float(1.0f, 2.0f), Coordinate!float(3.0f, 4.0f)]);
+    auto polygon = Polygon!float(lineString, []);
+}
