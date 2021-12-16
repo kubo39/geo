@@ -1,0 +1,15 @@
+.dub
+docs.json
+__dummy.html
+docs/
+/geo
+geo.so
+geo.dylib
+geo.dll
+geo.a
+geo.lib
+geo-test-*
+*.exe
+*.o
+*.obj
+*.lst
