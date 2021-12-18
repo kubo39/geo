@@ -186,14 +186,14 @@ template isGeometry(X...)
     if (X.length == 1 && is(X[0]))
 {
     enum isGeometry =
-        is(X[0] T : U, U : Point!int) ||
-        is(X[0] T : U, U : Point!real) ||
-        is(X[0] T : U, U : Line!int) ||
-        is(X[0] T : U, U : Line!real) ||
-        is(X[0] T : U, U : LineString!int) ||
-        is(X[0] T : U, U : LineString!real) ||
-        is(X[0] T : U, U : Polygon!int) ||
-        is(X[0] T : U, U : Polygon!real);
+        is(X[0] T : Point!int) ||
+        is(X[0] T : Point!real) ||
+        is(X[0] T : Line!int) ||
+        is(X[0] T : Line!real) ||
+        is(X[0] T : LineString!int) ||
+        is(X[0] T : LineString!real) ||
+        is(X[0] T : Polygon!int) ||
+        is(X[0] T : Polygon!real);
 }
 
 static assert(!isGeometry!(Coordinate!float));
