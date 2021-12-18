@@ -258,12 +258,24 @@ struct Polygon(T)
 {
     LineString!T exterior;
     LineString!T[] interiors;
+
+    this(LineString!T exterior, LineString!T[] interiors)
+    {
+        exterior.close;
+        foreach (interior; interiors)
+        {
+            interior.close;
+        }
+        this.exterior = exterior;
+        this.interiors = interiors;
+    }
 }
 
 unittest
 {
     auto lineString = LineString!float([Coordinate!float(1.0f, 2.0f), Coordinate!float(3.0f, 4.0f)]);
     auto polygon = Polygon!float(lineString, []);
+    assert(polygon.exterior.isClosed);
 }
 
 
