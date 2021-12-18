@@ -94,12 +94,12 @@ struct Point(T)
         this(coords[0], coords[1]);
     }
 
-    T x()
+    T x() const
     {
         return coord.x;
     }
 
-    T y()
+    T y() const
     {
         return coord.y;
     }
@@ -134,6 +134,23 @@ struct Point(T)
     {
         return cast(T)(this.coord.x * other.coord.x + this.coord.y * other.coord.y);
     }
+
+    static if (__traits(isFloating, T))
+    {
+        import std.math : PI;
+
+        /// Covert to degrees.
+        Point!T degrees() const
+        {
+            return Point!T(this.x * (180.0 / PI), this.y * (180.0 / PI));
+        }
+
+        /// Convert to radians.
+        Point!T radians() const
+        {
+            return Point!T(this.x * (PI / 180.0), this.y * (PI / 180.0));
+        }
+    }
 }
 
 unittest
@@ -144,6 +161,13 @@ unittest
     assert(p - p == Point!int(0, 0));
     assert(p * p == Point!int(1, 4));
     assert(p / p == Point!int(1, 1));
+}
+
+unittest
+{
+    const p = Point!float(1.0, 2.0);
+    const degrees = p.degrees;
+    assert(p == degrees.radians);
 }
 
 /// A line segment made up of exactly two Coordinates.
