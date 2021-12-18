@@ -51,6 +51,18 @@ bool isClose(T, U)(T lhs, U rhs)
         return isClose(lhs.start, rhs.start)
             && isClose(lhs.end, rhs.end);
     }
+    else static if (is(T TT : LineString!real) && is(U UU : LineString!real))
+    {
+        import std.range : zip;
+        if (lhs.length != rhs.length)
+            return false;
+        foreach (tup; lhs.coords.zip(rhs.coords))
+        {
+            if (!isClose(tup[0], tup[1]))
+                return false;
+        }
+        return true;
+    }
     else static assert(false);
 }
 
@@ -68,6 +80,18 @@ bool isClose(T, U, V)(T lhs, U rhs, V maxRelDiff)
         return isClose(lhs.start, rhs.start, maxRelDiff)
             && isClose(lhs.end, rhs.end, maxRelDiff);
     }
+    else static if (is(T TT : LineString!real) && is(U UU : LineString!real))
+    {
+        import std.range : zip;
+        if (lhs.length != rhs.length)
+            return false;
+        foreach (tup; lhs.coords.zip(rhs.coords))
+        {
+            if (!isClose(tup[0], tup[1], maxRelDiff))
+                return false;
+        }
+        return true;
+    }
     else static assert(false);
 }
 
@@ -84,6 +108,18 @@ bool isClose(T, U, V)(T lhs, U rhs, V maxRelDiff, V maxAbsDiff)
     {
         return isClose(lhs.start, rhs.start, maxRelDiff, maxAbsDiff)
             && isClose(lhs.end, rhs.end, maxRelDiff, maxAbsDiff);
+    }
+    else static if (is(T TT : LineString!real) && is(U UU : LineString!real))
+    {
+        import std.range : zip;
+        if (lhs.length != rhs.length)
+            return false;
+        foreach (tup; lhs.coords.zip(rhs.coords))
+        {
+            if (!isClose(tup[0], tup[1], maxRelDiff, maxAbsDiff))
+                return false;
+        }
+        return true;
     }
     else static assert(false);
 }
@@ -103,4 +139,22 @@ unittest
     assert(isClose(line, line));
     const line2 = Line!float(end, start);
     assert(!isClose(line, line2));
+}
+
+unittest
+{
+    auto coordsA = [
+        Coordinate!double(0.0, 0.0),
+        Coordinate!double(5.0, 0.0),
+        Coordinate!double(7.0, 0.0)
+        ];
+    auto a = LineString!double(coordsA);
+    auto coordsB = [
+        Coordinate!double(0.0, 0.0),
+        Coordinate!double(5.0, 0.0),
+        Coordinate!double(7.001, 0.0)
+        ];
+    auto b = LineString!double(coordsB);
+    assert(!isClose(a, b));
+    assert(isClose(a, b, 0.1));
 }
