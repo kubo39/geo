@@ -135,6 +135,7 @@ struct Point(T)
         return cast(T)(this.coord.x * other.coord.x + this.coord.y * other.coord.y);
     }
 
+    // T is a guaranteed build-in numeric type, so isFloatin is enough.
     static if (__traits(isFloating, T))
     {
         import std.math : PI;
@@ -312,3 +313,8 @@ alias GeometryTypeList = AliasSeq!(
 static foreach (T; GeometryTypeList)
     static assert(isGeometry!T);
 static assert(!isGeometry!(int*));
+unittest
+{
+    import std.complex : Complex;
+    static assert(!isGeometry!(Complex!double));
+}
