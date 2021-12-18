@@ -196,6 +196,7 @@ template isGeometry(X...)
         is(X[0] == Point!ulong) ||
         is(X[0] == Point!float) ||
         is(X[0] == Point!double) ||
+        is(X[0] == Point!real) ||
         is(X[0] == Line!byte) ||
         is(X[0] == Line!ubyte) ||
         is(X[0] == Line!short) ||
@@ -206,6 +207,7 @@ template isGeometry(X...)
         is(X[0] == Line!ulong) ||
         is(X[0] == Line!float) ||
         is(X[0] == Line!double) ||
+        is(X[0] == Line!real) ||
         is(X[0] == LineString!byte) ||
         is(X[0] == LineString!ubyte) ||
         is(X[0] == LineString!short) ||
@@ -216,6 +218,7 @@ template isGeometry(X...)
         is(X[0] == LineString!ulong) ||
         is(X[0] == LineString!float) ||
         is(X[0] == LineString!double) ||
+        is(X[0] == LineString!real) ||
         is(X[0] == Polygon!byte) ||
         is(X[0] == Polygon!ubyte) ||
         is(X[0] == Polygon!short) ||
@@ -225,7 +228,8 @@ template isGeometry(X...)
         is(X[0] == Polygon!long) ||
         is(X[0] == Polygon!ulong) ||
         is(X[0] == Polygon!float) ||
-        is(X[0] == Polygon!double);
+        is(X[0] == Polygon!double) ||
+        is(X[0] == Polygon!real);
 }
 
 static assert(!isGeometry!(Coordinate!float));
@@ -245,6 +249,7 @@ alias GeometryTypeList = AliasSeq!(
     Point!ulong,
     Point!float,
     Point!double,
+    Point!real,
     Line!byte,
     Line!ubyte,
     Line!short,
@@ -255,6 +260,7 @@ alias GeometryTypeList = AliasSeq!(
     Line!ulong,
     Line!float,
     Line!double,
+    Line!real,
     LineString!byte,
     LineString!ubyte,
     LineString!short,
@@ -265,6 +271,7 @@ alias GeometryTypeList = AliasSeq!(
     LineString!ulong,
     LineString!float,
     LineString!double,
+    LineString!real,
     Polygon!byte,
     Polygon!ubyte,
     Polygon!short,
@@ -274,7 +281,8 @@ alias GeometryTypeList = AliasSeq!(
     Polygon!long,
     Polygon!ulong,
     Polygon!float,
-    Polygon!double);
+    Polygon!double,
+    Polygon!real);
 
 static foreach (T; GeometryTypeList)
     static assert(isGeometry!T);
