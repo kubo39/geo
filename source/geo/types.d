@@ -17,20 +17,17 @@ struct Coordinate(T)
 
     this(Point!T point)
     {
-        this.x = point.x;
-        this.y = point.y;
+        this(point.x, point.y);
     }
 
     this(Tuple!(T, T) coords)
     {
-        this.x = coords[0];
-        this.y = coords[1];
+        this(coords[0], coords[1]);
     }
 
     this(T[2] coords)
     {
-        this.x = coords[0];
-        this.y = coords[1];
+        this(coords[0], coords[1]);
     }
 
     typeof(this) opUnary(string op)() const if (op == "-")
@@ -85,6 +82,16 @@ struct Point(T)
     this(Coordinate!T coord)
     {
         this(coord.x, coord.y);
+    }
+
+    this(Tuple!(T, T) coords)
+    {
+        this(coords[0], coords[1]);
+    }
+
+    this(T[2] coords)
+    {
+        this(coords[0], coords[1]);
     }
 
     T x()
