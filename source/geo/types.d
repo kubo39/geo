@@ -253,13 +253,9 @@ template isGeometry(X...)
     if (X.length == 1 && is(X[0]))
 {
     enum isGeometry =
-        is(X[0] T : Point!int) ||
         is(X[0] T : Point!real) ||
-        is(X[0] T : Line!int) ||
         is(X[0] T : Line!real) ||
-        is(X[0] T : LineString!int) ||
         is(X[0] T : LineString!real) ||
-        is(X[0] T : Polygon!int) ||
         is(X[0] T : Polygon!real);
 }
 
@@ -315,3 +311,4 @@ alias GeometryTypeList = AliasSeq!(
 
 static foreach (T; GeometryTypeList)
     static assert(isGeometry!T);
+static assert(!isGeometry!(int*));
