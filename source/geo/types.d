@@ -199,6 +199,11 @@ struct LineString(T)
     Coordinate!T[] coords;
     alias coords this;
 
+    this(Coordinate!T[] coords)
+    {
+        this.coords = coords;
+    }
+
     auto lines()
     {
         import std.algorithm : map;
@@ -208,9 +213,20 @@ struct LineString(T)
             .map!(a => Line!T(a[0], a[1]));
     }
 
+    /// Close the linestring.
+    void close()
+    {
+        if (!isClosed)
+        {
+            assert(this.coords.length);
+            this.coords ~= this.coords[0];
+        }
+    }
+
+    /// Checks if the linestring is closed.
     bool isClosed()
     {
-        return coords[0] == coords[$-1];
+        return this.coords[0] == this.coords[$-1];
     }
 }
 
@@ -232,6 +248,8 @@ unittest
         );
 
     assert(!lineString.isClosed);
+    lineString.close;
+    assert(lineString.isClosed);
 }
 
 /// A bounded two-dimensional area.
