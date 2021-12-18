@@ -1,12 +1,37 @@
 module geo.types;
 
 import std.traits : isNumeric;
+import std.typecons : Tuple;
 
 /// 2-dimensional Cartesian plane.
 struct Coordinate(T)
     if (isNumeric!T)
 {
     T x, y;
+
+    this(T x, T y)
+    {
+        this.x = x;
+        this.y = y;
+    }
+
+    this(Point!T point)
+    {
+        this.x = point.x;
+        this.y = point.y;
+    }
+
+    this(Tuple!(T, T) coords)
+    {
+        this.x = coords[0];
+        this.y = coords[1];
+    }
+
+    this(T[2] coords)
+    {
+        this.x = coords[0];
+        this.y = coords[1];
+    }
 
     typeof(this) opUnary(string op)() const if (op == "-")
     {
@@ -38,12 +63,13 @@ struct Coordinate(T)
 unittest
 {
     const coord = Coordinate!int(1, 2);
-    assert(-coord == Coordinate!int(-1, -2));
+    assert(-coord == Coordinate!int([-1, -2]));
     assert(coord + coord == Coordinate!int(2, 4));
     assert(coord - coord == Coordinate!int(0, 0));
     assert(coord * coord == Coordinate!int(1, 4));
     assert(coord / coord == Coordinate!int(1, 1));
 }
+
 
 /// A single point in 2D space.
 struct Point(T)
@@ -59,6 +85,16 @@ struct Point(T)
     this(Coordinate!T coord)
     {
         this(coord.x, coord.y);
+    }
+
+    T x()
+    {
+        return coord.x;
+    }
+
+    T y()
+    {
+        return coord.y;
     }
 
     typeof(this) opUnary(string op)() const if (op == "-")
