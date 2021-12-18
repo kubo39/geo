@@ -186,56 +186,18 @@ template isGeometry(X...)
     if (X.length == 1 && is(X[0]))
 {
     enum isGeometry =
-        is(X[0] == Point!byte) ||
-        is(X[0] == Point!ubyte) ||
-        is(X[0] == Point!short) ||
-        is(X[0] == Point!ushort) ||
-        is(X[0] == Point!int) ||
-        is(X[0] == Point!uint) ||
-        is(X[0] == Point!long) ||
-        is(X[0] == Point!ulong) ||
-        is(X[0] == Point!float) ||
-        is(X[0] == Point!double) ||
-        is(X[0] == Point!real) ||
-        is(X[0] == Line!byte) ||
-        is(X[0] == Line!ubyte) ||
-        is(X[0] == Line!short) ||
-        is(X[0] == Line!ushort) ||
-        is(X[0] == Line!int) ||
-        is(X[0] == Line!uint) ||
-        is(X[0] == Line!long) ||
-        is(X[0] == Line!ulong) ||
-        is(X[0] == Line!float) ||
-        is(X[0] == Line!double) ||
-        is(X[0] == Line!real) ||
-        is(X[0] == LineString!byte) ||
-        is(X[0] == LineString!ubyte) ||
-        is(X[0] == LineString!short) ||
-        is(X[0] == LineString!ushort) ||
-        is(X[0] == LineString!int) ||
-        is(X[0] == LineString!uint) ||
-        is(X[0] == LineString!long) ||
-        is(X[0] == LineString!ulong) ||
-        is(X[0] == LineString!float) ||
-        is(X[0] == LineString!double) ||
-        is(X[0] == LineString!real) ||
-        is(X[0] == Polygon!byte) ||
-        is(X[0] == Polygon!ubyte) ||
-        is(X[0] == Polygon!short) ||
-        is(X[0] == Polygon!ushort) ||
-        is(X[0] == Polygon!int) ||
-        is(X[0] == Polygon!uint) ||
-        is(X[0] == Polygon!long) ||
-        is(X[0] == Polygon!ulong) ||
-        is(X[0] == Polygon!float) ||
-        is(X[0] == Polygon!double) ||
-        is(X[0] == Polygon!real);
+        is(X[0] T : U, U : Point!int) ||
+        is(X[0] T : U, U : Point!real) ||
+        is(X[0] T : U, U : Line!int) ||
+        is(X[0] T : U, U : Line!real) ||
+        is(X[0] T : U, U : LineString!int) ||
+        is(X[0] T : U, U : LineString!real) ||
+        is(X[0] T : U, U : Polygon!int) ||
+        is(X[0] T : U, U : Polygon!real);
 }
 
 static assert(!isGeometry!(Coordinate!float));
-static assert(isGeometry!(LineString!uint));
-static assert(isGeometry!(Polygon!double));
-
+static assert(!isGeometry!float);
 
 private import std.meta : AliasSeq;
 alias GeometryTypeList = AliasSeq!(
