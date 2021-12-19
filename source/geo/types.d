@@ -182,6 +182,16 @@ struct Line(T)
     {
         return this.end - this.start;
     }
+
+    T dx() const
+    {
+        return delta().x;
+    }
+
+    T dy() const
+    {
+        return delta().y;
+    }
 }
 
 unittest
@@ -190,6 +200,8 @@ unittest
     const end = Coordinate!float(3.0f, 4.0f);
     const line = Line!float(start, end);
     assert(line.delta == Coordinate!float(2.0f, 2.0f));
+    assert(line.dx == 2.0f);
+    assert(line.dy == 2.0f);
 }
 
 /// An ordered collection of two or more Coordinates.
