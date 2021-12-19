@@ -293,6 +293,16 @@ struct LineString(T)
     {
         return this.coords[0] == this.coords[$-1];
     }
+
+    Coordinate!T opIndex(size_t index)
+    {
+        return this.coords[index];
+    }
+
+    Coordinate!T opIndexAssign(Coordinate!T value, size_t index)
+    {
+        return this.coords[index] = value;
+    }
 }
 
 unittest
@@ -311,6 +321,10 @@ unittest
                Line!float(Coordinate!float(3.0f, 4.0f), Coordinate!float(5.0f, 6.0f)),
                ]
         );
+
+    assert(lineString[0] == Coordinate!float(1.0f, 2.0f));
+    lineString[0] = coords[1];
+    assert(lineString[0] == Coordinate!float(3.0f, 4.0f));
 
     assert(!lineString.isClosed);
     lineString.close;
