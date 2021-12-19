@@ -154,6 +154,14 @@ struct Point(T)
         {
             return Point!T(this.x * (PI / 180.0), this.y * (PI / 180.0));
         }
+
+        bool contains(Point!T other) const
+        {
+            import std.conv : to;
+            import std.math.operations : isClose;
+            const distance = Line!T(this, other).euclideanLength.to!float;
+            return isClose(distance, 0.0f);
+        }
     }
 }
 
@@ -172,6 +180,8 @@ unittest
     const p = Point!float(1.0, 2.0);
     const degrees = p.degrees;
     assert(p == degrees.radians);
+    assert(p.contains(p));
+    assert(!p.contains(-p));
 }
 
 /// A line segment made up of exactly two Coordinates.
