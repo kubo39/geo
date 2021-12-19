@@ -178,6 +178,18 @@ struct Line(T)
     Coordinate!T start;
     Coordinate!T end;
 
+    this(Coordinate!T start, Coordinate!T end)
+    {
+        this.start = start;
+        this.end = end;
+    }
+
+    this(Point!T start, Point!T end)
+    {
+        this.start = start.coord;
+        this.end = end.coord;
+    }
+
     Coordinate!T delta() const
     {
         return this.end - this.start;
