@@ -9,13 +9,13 @@ public import geo.types;
 auto euclideanLength(T)(T geometry)
     if (isGeometry!T)
 {
-    static if (is(T TT : Line!float) || is(T TT : Line!double) || is(T TT : Line!real))
+    static if (is(T == Line!float) || is(T == Line!double) || is(T == Line!real))
     {
         import std.math.algebraic : hypot;
         alias line = geometry;
         return line.dx().hypot(line.dy());
     }
-    else static if (is(T TT : LineString!float) || is(T TT : LineString!double) || is(T TT : LineString!real))
+    else static if (is(T == LineString!float) || is(T == LineString!double) || is(T == LineString!real))
     {
         import std.algorithm : map, sum;
         alias linestring = geometry;
