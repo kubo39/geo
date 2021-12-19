@@ -154,13 +154,25 @@ struct Point(T)
         {
             return Point!T(this.x * (PI / 180.0), this.y * (PI / 180.0));
         }
+    }
 
-        bool contains(Point!T other) const
+    bool contains(Coordinate!T other) const
+    {
+        return this.coord == other;
+    }
+
+    bool contains(Point!T other) const
+    {
+        static if (__traits(isFloating, T))
         {
             import std.conv : to;
             import std.math.operations : isClose;
             const distance = Line!T(this, other).euclideanLength.to!float;
             return isClose(distance, 0.0f);
+        }
+        else
+        {
+            return contains(other.coord);
         }
     }
 }
