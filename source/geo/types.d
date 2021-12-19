@@ -1,7 +1,7 @@
 module geo.types;
 
 import std.traits : isNumeric;
-import std.typecons : Tuple;
+import std.typecons : Tuple, tuple;
 
 private import geo.operations;
 
@@ -216,6 +216,11 @@ struct Line(T)
     T dy() const
     {
         return delta().y;
+    }
+
+    Tuple!(Point!T, Point!T) points()
+    {
+        return tuple(Point!T(this.start), Point!T(this.end));
     }
 
     // T is a built-in numeric type, so isFlaoting is enough.
