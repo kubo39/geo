@@ -3,6 +3,9 @@ module geo.types;
 import std.traits : isNumeric;
 import std.typecons : Tuple;
 
+private import geo.operations;
+
+
 /// 2-dimensional Cartesian plane.
 struct Coordinate(T)
     if (isNumeric!T)
