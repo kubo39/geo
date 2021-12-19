@@ -2,16 +2,23 @@ module geo.algorithm.contains;
 
 import geo.types;
 
+
 bool contains(T, U)(T lhs, U rhs)
-    if (isGeometry!T && (isGeometry!U || is(U UU: Coordinate!real)))
+    if (isGeometry!T && is(U UU: Coordinate!real))
 {
     static if (is(T TT : Point!real))
     {
-        static if (is(U UU : Coordinate!real))
-        {
-            return lhs.coord == rhs;
-        }
-        else static if (is(U UU : Point!real))
+        return lhs.coord == rhs;
+    }
+    else static assert(false, "Not implemented yet.");
+}
+
+bool contains(T, U)(T lhs, U rhs)
+    if (isGeometry!T && isGeometry!U)
+{
+    static if (is(T TT : Point!real))
+    {
+        static if (is(U UU : Point!real))
         {
             static if(is(T == Point!float) || is(T == Point!double) || is(T == Point!real))
             {
