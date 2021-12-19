@@ -259,6 +259,8 @@ struct Polygon(T)
     LineString!T exterior;
     LineString!T[] interiors;
 
+    @disable this();
+
     this(LineString!T exterior, LineString!T[] interiors)
     {
         exterior.close;
