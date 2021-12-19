@@ -16,12 +16,12 @@ unittest
     assert(!intersects(coord1, coord2));
 }
 
-bool intersects(T, U)(T lhs, U rhs)
+bool intersects(T, U)(T lhs, U coord)
     if (isGeometry!T && is(U UU : Coordinate!real))
 {
     static if (is(T TT : Point!real))
     {
-        return lhs.coord.intersects(rhs);
+        return lhs.coord.intersects(coord);
     }
     else static assert(false, "Not implemented yet.");
 }

@@ -3,12 +3,12 @@ module geo.algorithm.contains;
 import geo.types;
 
 
-bool contains(T, U)(T lhs, U rhs)
+bool contains(T, U)(T lhs, U coord)
     if (isGeometry!T && is(U UU: Coordinate!real))
 {
     static if (is(T TT : Point!real))
     {
-        return lhs.coord == rhs;
+        return lhs.coord == coord;
     }
     else static assert(false, "Not implemented yet.");
 }
