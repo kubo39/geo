@@ -192,6 +192,17 @@ struct Line(T)
     {
         return delta().y;
     }
+
+    // T is a built-in numeric type, so isFlaoting is enough.
+    static if (__traits(isFloating, T))
+    {
+        ///
+        T euclideanLength() const
+        {
+            import std.math.algebraic : hypot;
+            return dx().hypot(dy());
+        }
+    }
 }
 
 unittest
