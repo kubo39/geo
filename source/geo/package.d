@@ -63,6 +63,20 @@ bool isClose(T, U)(T lhs, U rhs)
         }
         return true;
     }
+    else static if (is(T TT : Polygon!real) && is(U UU : Polygon!real))
+    {
+        import std.range : zip;
+        if (!isClose(lhs.exterior, rhs.exterior))
+            return false;
+        if (lhs.interiors.length != rhs.interiors.length)
+            return false;
+        foreach (tup; lhs.interiors.zip(rhs.interiors))
+        {
+            if (!isClose(tup[0], tup[1]))
+                return false;
+        }
+        return true;
+    }
     else static assert(false);
 }
 
@@ -92,6 +106,20 @@ bool isClose(T, U, V)(T lhs, U rhs, V maxRelDiff)
         }
         return true;
     }
+    else static if (is(T TT : Polygon!real) && is(U UU : Polygon!real))
+    {
+        import std.range : zip;
+        if (!isClose(lhs.exterior, rhs.exterior, maxRelDiff))
+            return false;
+        if (lhs.interiors.length != rhs.interiors.length)
+            return false;
+        foreach (tup; lhs.interiors.zip(rhs.interiors))
+        {
+            if (!isClose(tup[0], tup[1], maxRelDiff))
+                return false;
+        }
+        return true;
+    }
     else static assert(false);
 }
 
@@ -115,6 +143,20 @@ bool isClose(T, U, V)(T lhs, U rhs, V maxRelDiff, V maxAbsDiff)
         if (lhs.length != rhs.length)
             return false;
         foreach (tup; lhs.coords.zip(rhs.coords))
+        {
+            if (!isClose(tup[0], tup[1], maxRelDiff, maxAbsDiff))
+                return false;
+        }
+        return true;
+    }
+    else static if (is(T TT : Polygon!real) && is(U UU : Polygon!real))
+    {
+        import std.range : zip;
+        if (!isClose(lhs.exterior, rhs.exterior, maxRelDiff, maxAbsDiff))
+            return false;
+        if (lhs.interiors.length != rhs.interiors.length)
+            return false;
+        foreach (tup; lhs.interiors.zip(rhs.interiors))
         {
             if (!isClose(tup[0], tup[1], maxRelDiff, maxAbsDiff))
                 return false;
@@ -155,6 +197,28 @@ unittest
         Coordinate!double(7.001, 0.0)
         ];
     auto b = LineString!double(coordsB);
+    assert(!isClose(a, b));
+    assert(isClose(a, b, 0.1));
+}
+
+unittest
+{
+    auto coordsA = [
+        Coordinate!double(0.0, 0.0),
+        Coordinate!double(5.0, 0.0),
+        Coordinate!double(7.0, 9.0),
+        Coordinate!double(0.0, 0.0)
+        ];
+    auto coordsB = [
+        Coordinate!double(0.0, 0.0),
+        Coordinate!double(5.0, 0.0),
+        Coordinate!double(7.01, 9.0),
+        Coordinate!double(0.0, 0.0)
+        ];
+
+    auto a = Polygon!double(LineString!double(coordsA), []);
+    auto b = Polygon!double(LineString!double(coordsB), []);
+
     assert(!isClose(a, b));
     assert(isClose(a, b, 0.1));
 }
