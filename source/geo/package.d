@@ -1,6 +1,6 @@
 module geo;
 
-static import std.math.operations;
+private static import std.math.operations;
 
 public import geo.types;
 
