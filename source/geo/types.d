@@ -257,6 +257,18 @@ struct LineString(T)
         this.coords = coords;
     }
 
+    this(Point!T[] points)
+    {
+        import std.algorithm : map;
+        import std.array : array;
+        this(points.map!(a => a.coord).array);
+    }
+
+    this(Line!T line)
+    {
+        this([line.start, line.end]);
+    }
+
     auto lines()
     {
         import std.algorithm : map;
