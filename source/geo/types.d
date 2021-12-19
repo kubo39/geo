@@ -212,17 +212,6 @@ struct Line(T)
     {
         return tuple(Point!T(this.start), Point!T(this.end));
     }
-
-    // T is a built-in numeric type, so isFlaoting is enough.
-    static if (__traits(isFloating, T))
-    {
-        ///
-        T euclideanLength() const
-        {
-            import std.math.algebraic : hypot;
-            return dx().hypot(dy());
-        }
-    }
 }
 
 unittest
