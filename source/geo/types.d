@@ -155,7 +155,6 @@ struct Point(T)
             return Point!T(this.x * (PI / 180.0), this.y * (PI / 180.0));
         }
     }
-
 }
 
 unittest
