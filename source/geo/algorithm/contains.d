@@ -26,7 +26,7 @@ bool contains(T, U)(T lhs, U rhs)
             }
         }
     }
-    else static assert(false);
+    else static assert(false, "Not implemented yet.");
 }
 
 unittest
