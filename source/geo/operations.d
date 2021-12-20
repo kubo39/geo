@@ -45,6 +45,12 @@ bool isClose(T, U)(T lhs, U rhs)
         return std.math.operations.isClose(lhs.x, rhs.x)
             && std.math.operations.isClose(lhs.y, rhs.y);
     }
+    else static if (is(T TT : Triangle!real) && is(U UU : Triangle!real))
+    {
+        return isClose(lhs.x, rhs.x)
+            && isClose(lhs.y, rhs.y)
+            && isClose(lhs.z, rhs.z);
+    }
     else static if (is(T TT : Line!real) && is(U UU : Line!real))
     {
         return isClose(lhs.start, rhs.start)
@@ -87,6 +93,12 @@ bool isClose(T, U, V)(T lhs, U rhs, V maxRelDiff)
     {
         return std.math.operations.isClose(lhs.x, rhs.x, maxRelDiff)
             && std.math.operations.isClose(lhs.y, rhs.y, maxRelDiff);
+    }
+    else static if (is(T TT : Triangle!real) && is(U UU : Triangle!real))
+    {
+        return isClose(lhs.x, rhs.x, maxRelDiff)
+            && isClose(lhs.y, rhs.y, maxRelDiff)
+            && isClose(lhs.z, rhs.z, maxRelDiff);
     }
     else static if (is(T TT : Line!real) && is(U UU : Line!real))
     {
@@ -131,6 +143,12 @@ bool isClose(T, U, V)(T lhs, U rhs, V maxRelDiff, V maxAbsDiff)
         return std.math.operations.isClose(lhs.x, rhs.x, maxRelDiff, maxAbsDiff)
             && std.math.operations.isClose(lhs.y, rhs.y, maxRelDiff, maxAbsDiff);
     }
+    else static if (is(T TT : Triangle!real) && is(U UU : Triangle!real))
+    {
+        return isClose(lhs.x, rhs.x, maxRelDiff, maxAbsDiff)
+            && isClose(lhs.y, rhs.y, maxRelDiff, maxAbsDiff)
+            && isClose(lhs.z, rhs.z, maxRelDiff, maxAbsDiff);
+    }
     else static if (is(T TT : Line!real) && is(U UU : Line!real))
     {
         return isClose(lhs.start, rhs.start, maxRelDiff, maxAbsDiff)
@@ -170,6 +188,20 @@ unittest
     auto point1 = Point!float(1.0, 1.0);
     auto point2 = Point!float(1.0, 1.0);
     assert(isClose(point1, point2));
+}
+
+unittest
+{
+    auto a = Triangle!float(
+        Coordinate!float(0.0, 0.0),
+        Coordinate!float(10.0, 10.0),
+        Coordinate!float(0.0, 5.0));
+    auto b = Triangle!float(
+        Coordinate!float(0.0, 0.0),
+        Coordinate!float(10.01, 10.0),
+        Coordinate!float(0.0, 5.0));
+    assert(!isClose(a, b));
+    assert(isClose(a, b, 0.1));
 }
 
 unittest

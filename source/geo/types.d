@@ -174,6 +174,32 @@ unittest
     assert(p == degrees.radians);
 }
 
+
+/// A bounded 2 D area whose three verticles are defined by
+/// Coordinates.
+struct Triangle(T)
+    if (isNumeric!T)
+{
+    Coordinate!T x;
+    Coordinate!T y;
+    Coordinate!T z;
+
+    this(Coordinate!T x, Coordinate!T y, Coordinate!T z)
+    {
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+
+    this(Coordinate!T[3] coords)
+    {
+        this.x = coords[0];
+        this.y = coords[1];
+        this.z = coords[2];
+    }
+}
+
+
 /// A line segment made up of exactly two Coordinates.
 struct Line(T)
     if (isNumeric!T)
@@ -345,6 +371,7 @@ template isGeometry(X...)
 {
     enum isGeometry =
         is(X[0] T : Point!real) ||
+        is(X[0] T : Triangle!real) ||
         is(X[0] T : Line!real) ||
         is(X[0] T : LineString!real) ||
         is(X[0] T : Polygon!real);
@@ -366,6 +393,17 @@ alias GeometryTypeList = AliasSeq!(
     Point!float,
     Point!double,
     Point!real,
+    Triangle!byte,
+    Triangle!ubyte,
+    Triangle!short,
+    Triangle!ushort,
+    Triangle!int,
+    Triangle!uint,
+    Triangle!long,
+    Triangle!ulong,
+    Triangle!float,
+    Triangle!double,
+    Triangle!real,
     Line!byte,
     Line!ubyte,
     Line!short,
