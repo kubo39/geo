@@ -15,7 +15,9 @@ bool isClose(T, U)(T lhs, U rhs)
 
 /// Ditto.
 bool isClose(T, U, V)(T lhs, U rhs, V maxRelDiff)
-    if (is(T TT : Coordinate!real) && is(U UU : Coordinate!real))
+    if (is(T TT : Coordinate!real)
+        && is(U UU : Coordinate!real)
+        && __traits(isFloating, V))
 {
     return std.math.operations.isClose(lhs.x, rhs.x, maxRelDiff)
         && std.math.operations.isClose(lhs.y, rhs.y, maxRelDiff);
@@ -23,7 +25,9 @@ bool isClose(T, U, V)(T lhs, U rhs, V maxRelDiff)
 
 /// Ditto.
 bool isClose(T, U, V)(T lhs, U rhs, V maxRelDiff, V maxAbsDiff)
-    if (is(T TT : Coordinate!real) && is(U UU : Coordinate!real))
+    if (is(T TT : Coordinate!real)
+        && is(U UU : Coordinate!real)
+        && __traits(isFloating, V))
 {
         return std.math.operations.isClose(lhs.x, rhs.x, maxRelDiff, maxAbsDiff)
             && std.math.operations.isClose(lhs.y, rhs.y, maxRelDiff, maxAbsDiff);
@@ -87,7 +91,7 @@ bool isClose(T, U)(T lhs, U rhs)
 
 /// Ditto.
 bool isClose(T, U, V)(T lhs, U rhs, V maxRelDiff)
-    if (isGeometry!T && isGeometry!U)
+    if (isGeometry!T && isGeometry!U && __traits(isFloating, V))
 {
     static if (is(T TT : Point!real) && is(U UU : Point!real))
     {
@@ -136,7 +140,7 @@ bool isClose(T, U, V)(T lhs, U rhs, V maxRelDiff)
 
 /// Ditto.
 bool isClose(T, U, V)(T lhs, U rhs, V maxRelDiff, V maxAbsDiff)
-    if (isGeometry!T && isGeometry!U)
+    if (isGeometry!T && isGeometry!U && __traits(isFloating, V))
 {
     static if (is(T TT : Point!real) && is(U UU : Point!real))
     {
