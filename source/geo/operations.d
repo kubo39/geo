@@ -1,6 +1,7 @@
 module geo.operations;
 
 private static import std.math.operations;
+import std.traits : isFloatingPoint;
 
 import geo.types;
 
@@ -17,7 +18,7 @@ bool isClose(T, U)(T lhs, U rhs)
 bool isClose(T, U, V)(T lhs, U rhs, V maxRelDiff)
     if (is(T TT : Coordinate!real)
         && is(U UU : Coordinate!real)
-        && __traits(isFloating, V))
+        && isFloatingPoint!V)
 {
     return std.math.operations.isClose(lhs.x, rhs.x, maxRelDiff)
         && std.math.operations.isClose(lhs.y, rhs.y, maxRelDiff);
@@ -27,7 +28,7 @@ bool isClose(T, U, V)(T lhs, U rhs, V maxRelDiff)
 bool isClose(T, U, V)(T lhs, U rhs, V maxRelDiff, V maxAbsDiff)
     if (is(T TT : Coordinate!real)
         && is(U UU : Coordinate!real)
-        && __traits(isFloating, V))
+        && isFloatingPoint!V)
 {
         return std.math.operations.isClose(lhs.x, rhs.x, maxRelDiff, maxAbsDiff)
             && std.math.operations.isClose(lhs.y, rhs.y, maxRelDiff, maxAbsDiff);
@@ -91,7 +92,7 @@ bool isClose(T, U)(T lhs, U rhs)
 
 /// Ditto.
 bool isClose(T, U, V)(T lhs, U rhs, V maxRelDiff)
-    if (isGeometry!T && isGeometry!U && __traits(isFloating, V))
+    if (isGeometry!T && isGeometry!U && isFloatingPoint!V)
 {
     static if (is(T TT : Point!real) && is(U UU : Point!real))
     {
@@ -140,7 +141,7 @@ bool isClose(T, U, V)(T lhs, U rhs, V maxRelDiff)
 
 /// Ditto.
 bool isClose(T, U, V)(T lhs, U rhs, V maxRelDiff, V maxAbsDiff)
-    if (isGeometry!T && isGeometry!U && __traits(isFloating, V))
+    if (isGeometry!T && isGeometry!U && isFloatingPointV)
 {
     static if (is(T TT : Point!real) && is(U UU : Point!real))
     {
