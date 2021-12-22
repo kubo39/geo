@@ -56,6 +56,11 @@ bool isClose(T, U)(T lhs, U rhs)
             && isClose(lhs.y, rhs.y)
             && isClose(lhs.z, rhs.z);
     }
+    else static if (is(T TT : Rectangle!real) && is(U UU : Rectangle!real))
+    {
+        return isClose(lhs.min, rhs.min)
+            && isClose(lhs.max, rhs.max);
+    }
     else static if (is(T TT : Line!real) && is(U UU : Line!real))
     {
         return isClose(lhs.start, rhs.start)
@@ -105,6 +110,11 @@ bool isClose(T, U, V)(T lhs, U rhs, V maxRelDiff)
             && isClose(lhs.y, rhs.y, maxRelDiff)
             && isClose(lhs.z, rhs.z, maxRelDiff);
     }
+    else static if (is(T TT : Rectangle!real) && is(U UU : Rectangle!real))
+    {
+        return isClose(lhs.min, rhs.min, maxRelDiff)
+            && isClose(lhs.max, rhs.max, maxRelDiff);
+    }
     else static if (is(T TT : Line!real) && is(U UU : Line!real))
     {
         return isClose(lhs.start, rhs.start, maxRelDiff)
@@ -153,6 +163,11 @@ bool isClose(T, U, V)(T lhs, U rhs, V maxRelDiff, V maxAbsDiff)
         return isClose(lhs.x, rhs.x, maxRelDiff, maxAbsDiff)
             && isClose(lhs.y, rhs.y, maxRelDiff, maxAbsDiff)
             && isClose(lhs.z, rhs.z, maxRelDiff, maxAbsDiff);
+    }
+    else static if (is(T TT : Rectangle!real) && is(U UU : Rectangle!real))
+    {
+        return isClose(lhs.min, rhs.min, maxRelDiff, maxAbsDiff)
+            && isClose(lhs.max, rhs.max, maxRelDiff, maxAbsDiff);
     }
     else static if (is(T TT : Line!real) && is(U UU : Line!real))
     {

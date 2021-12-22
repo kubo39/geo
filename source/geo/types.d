@@ -235,13 +235,13 @@ struct Rectangle(T)
     /// Returns the width of the Rectangle.
     T width()
     {
-        return this.max.x - this.min.x;
+        return cast(T)(this.max.x - this.min.x);
     }
 
     /// Returns the height of the Rectangle.
     T height()
     {
-        return this.max.y - this.min.y;
+        return cast(T)(this.max.y - this.min.y);
     }
 
     static if (isFloatingPoint!T)
@@ -437,6 +437,7 @@ template isGeometry(X...)
     enum isGeometry =
         is(X[0] T : Point!real) ||
         is(X[0] T : Triangle!real) ||
+        is(X[0] T : Rectangle!real) ||
         is(X[0] T : Line!real) ||
         is(X[0] T : LineString!real) ||
         is(X[0] T : Polygon!real);
@@ -469,6 +470,17 @@ alias GeometryTypeList = AliasSeq!(
     Triangle!float,
     Triangle!double,
     Triangle!real,
+    Rectangle!byte,
+    Rectangle!ubyte,
+    Rectangle!short,
+    Rectangle!ushort,
+    Rectangle!int,
+    Rectangle!uint,
+    Rectangle!long,
+    Rectangle!ulong,
+    Rectangle!float,
+    Rectangle!double,
+    Rectangle!real,
     Line!byte,
     Line!ubyte,
     Line!short,
