@@ -138,8 +138,7 @@ struct Point(T)
         return cast(T)(this.coord.x * other.coord.x + this.coord.y * other.coord.y);
     }
 
-    // T is a guaranteed built-in numeric type, so isFloating is enough.
-    static if (__traits(isFloating, T))
+    static if (isFloatingPoint!T)
     {
         import std.math : PI;
 
