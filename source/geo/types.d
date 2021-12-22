@@ -1,6 +1,6 @@
 module geo.types;
 
-import std.traits : isNumeric;
+import std.traits : isFloatingPoint, isNumeric;
 import std.typecons : Tuple, tuple;
 
 private import geo.operations;
@@ -175,7 +175,7 @@ unittest
 }
 
 
-/// A bounded 2 D area whose three verticles are defined by
+/// A bounded 2D area whose three verticles are defined by
 /// Coordinates.
 struct Triangle(T)
     if (isNumeric!T)
@@ -197,6 +197,74 @@ struct Triangle(T)
         this.y = coords[1];
         this.z = coords[2];
     }
+}
+
+
+/// An axis-aligned bounded 2D rectangle whose area is
+/// defined by Coordinates.
+struct Rectangle(T)
+    if (isNumeric!T)
+{
+    Coordinate!T min;
+    Coordinate!T max;
+
+    this(Coordinate!T c1, Coordinate!T c2)
+    {
+        T minX, maxX, minY, maxY;
+        if (c1.x < c2.x)
+        {
+            minX = c1.x;
+            maxX = c2.x;
+        }
+        else
+        {
+            minX = c2.x;
+            maxX = c1.x;
+        }
+        if (c1.y < c2.y)
+        {
+            minY = c1.y;
+            maxY = c2.y;
+        }
+        else
+        {
+            minY = c2.y;
+            maxY = c1.y;
+        }
+        this.min = Coordinate!T(minX, minY);
+        this.max = Coordinate!T(maxX, maxY);
+    }
+
+    /// Returns the width of the Rectangle.
+    T width()
+    {
+        return this.max.x - this.min.x;
+    }
+
+    /// Returns the height of the Rectangle.
+    T height()
+    {
+        return this.max.y - this.min.y;
+    }
+
+    static if (isFloatingPoint!T)
+    {
+        Coordinate!T center()
+        {
+            return Coordinate!T(
+                (this.max.x + this.min.x) / 2,
+                (this.max.y + this.min.y) / 2);
+        }
+    }
+}
+
+unittest
+{
+    auto rect = Rectangle!double(
+        Coordinate!double(5.0, 5.0),
+        Coordinate!double(15.0, 15.0)
+        );
+    assert(rect.center == Coordinate!double(10.0, 10.0));
 }
 
 
