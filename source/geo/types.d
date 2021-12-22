@@ -3,8 +3,6 @@ module geo.types;
 import std.traits : isFloatingPoint, isNumeric;
 import std.typecons : Tuple, tuple;
 
-private import geo.operations;
-
 
 /// 2-dimensional Cartesian plane.
 struct Coordinate(T)
