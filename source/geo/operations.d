@@ -151,7 +151,7 @@ bool isClose(T, U, V)(T lhs, U rhs, V maxRelDiff)
 
 /// Ditto.
 bool isClose(T, U, V)(T lhs, U rhs, V maxRelDiff, V maxAbsDiff)
-    if (isGeometry!T && isGeometry!U && isFloatingPointV)
+    if (isGeometry!T && isGeometry!U && isFloatingPoint!V)
 {
     static if (is(T TT : Point!real) && is(U UU : Point!real))
     {
