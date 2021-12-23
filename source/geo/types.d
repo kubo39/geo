@@ -38,21 +38,9 @@ struct Coordinate(T)
 
     typeof(this) opBinary(string op)(typeof(this) other) const
     {
-        static if (op == "+")
+        static if (op == "+" || op == "-" || op == "*" || op == "/")
         {
-            return Coordinate!T(cast(T)(this.x + other.x), cast(T)(this.y + other.y));
-        }
-        else static if (op == "-")
-        {
-            return Coordinate!T(cast(T)(this.x - other.x), cast(T)(this.y - other.y));
-        }
-        else static if (op == "*")
-        {
-            return Coordinate!T(cast(T)(this.x * other.x), cast(T)(this.y * other.y));
-        }
-        else static if (op == "/")
-        {
-            return Coordinate!T(cast(T)(this.x / other.x), cast(T)(this.y / other.y));
+            mixin(`return Coordinate!T(cast(T)(this.x` ~ op ~ `other.x), cast(T)(this.y` ~  op ~ `other.y));`);
         }
         else static assert(false, "Operator" ~ op ~ " no implemented");
     }
@@ -112,21 +100,9 @@ struct Point(T)
 
     typeof(this) opBinary(string op)(typeof(this) other) const
     {
-        static if (op == "+")
+        static if (op == "+" || op == "-" || op == "*" || op == "/")
         {
-            return Point!T(this.coord + other.coord);
-        }
-        else static if (op == "-")
-        {
-            return Point!T(this.coord - other.coord);
-        }
-        else static if (op == "*")
-        {
-            return Point!T(this.coord * other.coord);
-        }
-        else static if (op == "/")
-        {
-            return Point!T(this.coord / other.coord);
+            mixin(`return Point!T(this.coord` ~ op ~ `other.coord);`);
         }
         else static assert(false, "Operator" ~ op ~ " no implemented");
     }
