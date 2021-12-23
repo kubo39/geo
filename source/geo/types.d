@@ -40,9 +40,9 @@ struct Coordinate(T)
     {
         static if (op == "+" || op == "-" || op == "*" || op == "/")
         {
-            mixin(`return Coordinate!T(cast(T)(this.x` ~ op ~ `other.x), cast(T)(this.y` ~  op ~ `other.y));`);
+            mixin(`return Coordinate!T(cast(T)(this.x ` ~ op ~ ` other.x), cast(T)(this.y ` ~  op ~ ` other.y));`);
         }
-        else static assert(false, "Operator" ~ op ~ " no implemented");
+        else static assert(false, "Operator " ~ op ~ " no implemented");
     }
 }
 
@@ -102,9 +102,9 @@ struct Point(T)
     {
         static if (op == "+" || op == "-" || op == "*" || op == "/")
         {
-            mixin(`return Point!T(this.coord` ~ op ~ `other.coord);`);
+            mixin(`return Point!T(this.coord ` ~ op ~ ` other.coord);`);
         }
-        else static assert(false, "Operator" ~ op ~ " no implemented");
+        else static assert(false, "Operator " ~ op ~ " no implemented");
     }
 
     T dot(typeof(this) other)
