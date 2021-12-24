@@ -1,9 +1,10 @@
 module geo.algorithm.intersects;
 
+import std.traits : isNumeric;
 import geo.types;
 
 bool intersects(T, U)(Coordinate!T lhs, Coordinate!U rhs)
-    if (is(T TT : real) && is(U UU : real))
+    if (isNumeric!T && isNumeric!U)
 {
     return lhs == rhs;
 }
@@ -17,7 +18,7 @@ unittest
 }
 
 bool intersects(T, U)(Point!T lhs, Coordinate!U coord)
-    if (is(T TT : real) && is(U UU : real))
+    if (isNumeric!T && isNumeric!U)
 {
     return lhs.coord.intersects(coord);
 }

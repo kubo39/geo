@@ -1,18 +1,18 @@
 module geo.algorithm.contains;
 
-import std.traits : isFloatingPoint, isIntegral;
+import std.traits : isFloatingPoint, isIntegral, isNumeric;
 import geo.types;
 private import geo.algorithm;
 
 
 bool contains(T, U)(Point!T lhs, Coordinate!U coord)
-    if (is(T TT : real) && is(U UU: real))
+    if (isNumeric!T && isNumeric!U)
 {
     return lhs.coord == coord;
 }
 
 bool contains(T, U)(Point!T lhs, Point!U rhs)
-    if (is(T TT : real) && isFloatingPoint!U)
+    if (isNumeric!T && isFloatingPoint!U)
 {
     import std.conv : to;
     import std.math.operations : isClose;
@@ -21,7 +21,7 @@ bool contains(T, U)(Point!T lhs, Point!U rhs)
 }
 
 bool contains(T, U)(Point!T lhs, Point!U rhs)
-    if (is(T TT : real) && isIntegral!U)
+    if (isNumeric!T && isIntegral!U)
 {
     return contains(lhs, rhs.coord);
 }
