@@ -17,6 +17,12 @@ unittest
     assert(!intersects(coord1, coord2));
 }
 
+bool intersects(T, U)(Coordinate!T lhs, Point!U rhs)
+    if (isNumeric!T && isNumeric!U)
+{
+    return lhs == rhs.coord;
+}
+
 bool intersects(T, U)(Point!T lhs, Coordinate!U coord)
     if (isNumeric!T && isNumeric!U)
 {
