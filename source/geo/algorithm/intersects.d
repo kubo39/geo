@@ -2,8 +2,8 @@ module geo.algorithm.intersects;
 
 import geo.types;
 
-bool intersects(T, U)(T lhs, U rhs)
-    if (is(T TT : Coordinate!real) && is(U UU : Coordinate!real))
+bool intersects(T, U)(Coordinate!T lhs, Coordinate!U rhs)
+    if (is(T TT : real) && is(U UU : real))
 {
     return lhs == rhs;
 }
@@ -16,14 +16,10 @@ unittest
     assert(!intersects(coord1, coord2));
 }
 
-bool intersects(T, U)(T lhs, U coord)
-    if (isGeometry!T && is(U UU : Coordinate!real))
+bool intersects(T, U)(Point!T lhs, Coordinate!U coord)
+    if (is(T TT : real) && is(U UU : real))
 {
-    static if (is(T TT : Point!real))
-    {
-        return lhs.coord.intersects(coord);
-    }
-    else static assert(false, "Not implemented yet.");
+    return lhs.coord.intersects(coord);
 }
 
 unittest

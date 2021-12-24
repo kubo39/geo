@@ -1,30 +1,29 @@
 module geo.algorithm;
 
+import std.traits : isFloatingPoint;
+
 public import geo.algorithm.contains;
 public import geo.algorithm.intersects;
 public import geo.types;
 
 
 /// Calculation of its length.
-auto euclideanLength(T)(T geometry)
-    if (isGeometry!T)
+auto euclideanLength(T)(Line!T line)
+    if (isFloatingPoint!T)
 {
-    static if (is(T == Line!float) || is(T == Line!double) || is(T == Line!real))
-    {
-        import std.math.algebraic : hypot;
-        alias line = geometry;
-        return line.dx().hypot(line.dy());
-    }
-    else static if (is(T == LineString!float) || is(T == LineString!double) || is(T == LineString!real))
-    {
-        import std.algorithm : map, sum;
-        alias linestring = geometry;
-        return linestring
-            .lines()
-            .map!(line => line.euclideanLength)
-            .sum;
-    }
-    else static assert(false, "Not implemented yet.");
+    import std.math.algebraic : hypot;
+    return line.dx().hypot(line.dy());
+}
+
+/// Ditto.
+auto euclideanLength(T)(LineString!T linestring)
+    if (isFloatingPoint!T)
+{
+    import std.algorithm : map, sum;
+    return linestring
+        .lines()
+        .map!(line => line.euclideanLength)
+        .sum;
 }
 
 unittest

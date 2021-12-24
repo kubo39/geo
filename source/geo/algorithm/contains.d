@@ -1,40 +1,31 @@
 module geo.algorithm.contains;
 
+import std.traits : isFloatingPoint, isIntegral;
 import geo.types;
+private import geo.algorithm;
 
 
-bool contains(T, U)(T lhs, U coord)
-    if (isGeometry!T && is(U UU: Coordinate!real))
+bool contains(T, U)(Point!T lhs, Coordinate!U coord)
+    if (is(T TT : real) && is(U UU: real))
 {
-    static if (is(T TT : Point!real))
-    {
-        return lhs.coord == coord;
-    }
-    else static assert(false, "Not implemented yet.");
+    return lhs.coord == coord;
 }
 
-bool contains(T, U)(T lhs, U rhs)
-    if (isGeometry!T && isGeometry!U)
+bool contains(T, U)(Point!T lhs, Point!U rhs)
+    if (is(T TT : real) && isFloatingPoint!U)
 {
-    static if (is(T TT : Point!real))
-    {
-        static if (is(U UU : Point!real))
-        {
-            static if(is(T == Point!float) || is(T == Point!double) || is(T == Point!real))
-            {
-                import std.conv : to;
-                import std.math.operations : isClose;
-                const distance = Line!T(lhs, rhs).euclideanLength.to!float;
-                return isClose(distance, 0.0f);
-            }
-            else
-            {
-                return contains(lhs, rhs.coord);
-            }
-        }
-    }
-    else static assert(false, "Not implemented yet.");
+    import std.conv : to;
+    import std.math.operations : isClose;
+    const distance = Line!T(lhs, rhs).euclideanLength.to!float;
+    return isClose(distance, 0.0f);
 }
+
+bool contains(T, U)(Point!T lhs, Point!U rhs)
+    if (is(T TT : real) && isIntegral!U)
+{
+    return contains(lhs, rhs.coord);
+}
+
 
 unittest
 {
