@@ -6,8 +6,8 @@ import geo.types;
 import geo.algorithm.kernels;
 
 
-bool intersects(T, U)(Coordinate!T lhs, Coordinate!U rhs)
-    if (isNumeric!T && isNumeric!U)
+bool intersects(T)(Coordinate!T lhs, Coordinate!T rhs)
+    if (isNumeric!T)
 {
     return lhs == rhs;
 }
@@ -20,14 +20,14 @@ unittest
     assert(!intersects(coord1, coord2));
 }
 
-bool intersects(T, U)(Coordinate!T lhs, Point!U rhs)
-    if (isNumeric!T && isNumeric!U)
+bool intersects(T)(Coordinate!T lhs, Point!T rhs)
+    if (isNumeric!T)
 {
     return lhs == rhs.coord;
 }
 
-bool intersects(T, U)(Point!T lhs, Coordinate!U coord)
-    if (isNumeric!T && isNumeric!U)
+bool intersects(T)(Point!T lhs, Coordinate!T coord)
+    if (isNumeric!T)
 {
     return lhs.coord.intersects(coord);
 }

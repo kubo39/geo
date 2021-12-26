@@ -5,14 +5,14 @@ import geo.types;
 private import geo.algorithm;
 
 
-bool contains(T, U)(Point!T lhs, Coordinate!U coord)
-    if (isNumeric!T && isNumeric!U)
+bool contains(T)(Point!T lhs, Coordinate!T coord)
+    if (isNumeric!T)
 {
     return lhs.coord == coord;
 }
 
-bool contains(T, U)(Point!T lhs, Point!U rhs)
-    if (isNumeric!T && isFloatingPoint!U)
+bool contains(T)(Point!T lhs, Point!T rhs)
+    if (isFloatingPoint!T)
 {
     import std.conv : to;
     import std.math.operations : isClose;
@@ -20,8 +20,8 @@ bool contains(T, U)(Point!T lhs, Point!U rhs)
     return isClose(distance, 0.0f);
 }
 
-bool contains(T, U)(Point!T lhs, Point!U rhs)
-    if (isNumeric!T && isIntegral!U)
+bool contains(T)(Point!T lhs, Point!T rhs)
+    if (isIntegral!T)
 {
     return contains(lhs, rhs.coord);
 }
