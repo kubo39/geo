@@ -20,10 +20,10 @@ Orientation orient2d(T)(Coordinate!T p, Coordinate!T q, Coordinate!T r)
     if (isFloatingPoint!T)
 {
     import robust;
-    const orientation = orient2d(
-        Coord(cast(double) p.x, cast(double) p.y),
-        Coord(cast(double) q.x, cast(double) q.y),
-        Coord(cast(double) r.x, cast(double) r.y));
+    const orientation = robust.orient2d!double(
+        Coord!double(cast(double) p.x, cast(double) p.y),
+        Coord!double(cast(double) q.x, cast(double) q.y),
+        Coord!double(cast(double) r.x, cast(double) r.y));
     if (orientation < 0.0)
         return Orientation.Clockwise;
     else if (orientation > 0.0)
