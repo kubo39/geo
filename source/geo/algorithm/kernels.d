@@ -1,6 +1,6 @@
 module geo.algorithm.kernels;
 
-import std.traits : isNumeric;
+import std.traits : isFloatingPoint, isIntegral;
 import geo.types;
 
 @nogc:
@@ -15,11 +15,26 @@ enum Orientation
     Colinear,
 }
 
+/// Robust kernel that uses fast robust predicates for double.
+Orientation orient2d(T)(Coordinate!T p, Coordinate!T q, Coordinate!T r)
+    if (isFloatingPoint!T)
+{
+    import robust;
+    const orientation = orient2d(
+        Coord(cast(double) p.x, cast(double) p.y),
+        Coord(cast(double) q.x, cast(double) q.y),
+        Coord(cast(double) r.x, cast(double) r.y));
+    if (orientation < 0.0)
+        return Orientation.Clockwise;
+    else if (orientation > 0.0)
+        return Orientation.CounterClockwise;
+    return Orientation.Colinear;
+}
 
 /// Given the orientation of 3 2-dimensional points.
 /// Note that this is naive implementation.
 Orientation orient2d(T)(Coordinate!T p, Coordinate!T q, Coordinate!T r)
-    if (isNumeric!T)
+    if (isIntegral!T)
 {
     const res = (q.x - p.x) * (r.y - q.y) - (q.y - p.y) * (r.x - q.x);
     if (res > cast(T) 0)
