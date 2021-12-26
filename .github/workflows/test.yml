@@ -17,5 +17,8 @@ jobs:
         with:
           compiler: ${{ matrix.dc }}
 
+      - name: submodule
+        run: git submodule init && git submodule update
+
       - name: Run tests
         run: dub -q test
