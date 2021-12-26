@@ -3,6 +3,10 @@ module geo.algorithm.kernels;
 import std.traits : isNumeric;
 import geo.types;
 
+@nogc:
+nothrow:
+pure:
+@safe:
 
 enum Orientation
 {

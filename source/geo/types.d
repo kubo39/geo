@@ -4,10 +4,16 @@ import std.traits : isFloatingPoint, isNumeric;
 import std.typecons : Tuple, tuple;
 
 
+nothrow:
+pure:
+@safe:
+
 /// 2-dimensional Cartesian plane.
 struct Coordinate(T)
     if (isNumeric!T)
 {
+    @nogc:
+
     T x, y;
 
     this(T x, T y)
@@ -46,7 +52,7 @@ struct Coordinate(T)
     }
 }
 
-unittest
+@nogc unittest
 {
     const coord = Coordinate!int(1, 2);
     assert(-coord == Coordinate!int([-1, -2]));
@@ -61,6 +67,8 @@ unittest
 struct Point(T)
     if (isNumeric!T)
 {
+    @nogc:
+
     Coordinate!T coord;
 
     this(T x, T y)
@@ -130,7 +138,7 @@ struct Point(T)
     }
 }
 
-unittest
+@nogc unittest
 {
     const p = Point!int(1, 2);
     assert(-p == Point!int(-1, -2));
@@ -140,7 +148,7 @@ unittest
     assert(p / p == Point!int(1, 1));
 }
 
-unittest
+@nogc unittest
 {
     const p = Point!float(1.0, 2.0);
     const degrees = p.degrees;
@@ -153,6 +161,8 @@ unittest
 struct Triangle(T)
     if (isNumeric!T)
 {
+    @nogc:
+
     Coordinate!T x;
     Coordinate!T y;
     Coordinate!T z;
@@ -178,6 +188,8 @@ struct Triangle(T)
 struct Rectangle(T)
     if (isNumeric!T)
 {
+    @nogc:
+
     Coordinate!T min;
     Coordinate!T max;
 
@@ -231,7 +243,7 @@ struct Rectangle(T)
     }
 }
 
-unittest
+@nogc unittest
 {
     auto rect = Rectangle!double(
         Coordinate!double(5.0, 5.0),
@@ -245,6 +257,8 @@ unittest
 struct Line(T)
     if (isNumeric!T)
 {
+    @nogc:
+
     Coordinate!T start;
     Coordinate!T end;
 
@@ -281,7 +295,7 @@ struct Line(T)
     }
 }
 
-unittest
+@nogc unittest
 {
     const start = Coordinate!float(1.0f, 2.0f);
     const end = Coordinate!float(3.0f, 4.0f);
@@ -298,7 +312,7 @@ struct LineString(T)
     Coordinate!T[] coords;
     alias coords this;
 
-    this(Coordinate!T[] coords)
+    this(Coordinate!T[] coords) @nogc
     {
         this.coords = coords;
     }
@@ -315,7 +329,7 @@ struct LineString(T)
         this([line.start, line.end]);
     }
 
-    auto lines()
+    auto lines() @nogc
     {
         import std.algorithm : map;
         import std.range : slide;
@@ -335,17 +349,17 @@ struct LineString(T)
     }
 
     /// Checks if the linestring is closed.
-    bool isClosed()
+    bool isClosed() @nogc
     {
         return this.coords[0] == this.coords[$-1];
     }
 
-    Coordinate!T opIndex(size_t index)
+    Coordinate!T opIndex(size_t index) @nogc
     {
         return this.coords[index];
     }
 
-    Coordinate!T opIndexAssign(Coordinate!T value, size_t index)
+    Coordinate!T opIndexAssign(Coordinate!T value, size_t index) @nogc
     {
         return this.coords[index] = value;
     }

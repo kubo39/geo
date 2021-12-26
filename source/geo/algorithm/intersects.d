@@ -6,6 +6,11 @@ import geo.types;
 import geo.algorithm.kernels;
 
 
+@nogc:
+nothrow:
+pure:
+@safe:
+
 bool intersects(T)(Coordinate!T lhs, Coordinate!T rhs)
     if (isNumeric!T)
 {

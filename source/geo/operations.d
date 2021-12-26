@@ -5,8 +5,12 @@ import std.traits : isFloatingPoint, isNumeric;
 
 import geo.types;
 
+nothrow:
+pure:
+@safe:
+
 /// Computes whether two values are approximately equal.
-bool isClose(T, U)(Coordinate!T lhs, Coordinate!U rhs)
+bool isClose(T, U)(Coordinate!T lhs, Coordinate!U rhs) @nogc
     if (isNumeric!T && isNumeric!U)
 {
     return std.math.operations.isClose(lhs.x, rhs.x)
@@ -15,7 +19,7 @@ bool isClose(T, U)(Coordinate!T lhs, Coordinate!U rhs)
 
 
 /// Ditto.
-bool isClose(T, U, V)(Coordinate!T lhs, Coordinate!U rhs, V maxRelDiff)
+bool isClose(T, U, V)(Coordinate!T lhs, Coordinate!U rhs, V maxRelDiff) @nogc
     if (isNumeric!T && isNumeric!U && isFloatingPoint!V)
 {
     return std.math.operations.isClose(lhs.x, rhs.x, maxRelDiff)
@@ -23,14 +27,14 @@ bool isClose(T, U, V)(Coordinate!T lhs, Coordinate!U rhs, V maxRelDiff)
 }
 
 /// Ditto.
-bool isClose(T, U, V)(Coordinate!T lhs, Coordinate!U rhs, V maxRelDiff, V maxAbsDiff)
+bool isClose(T, U, V)(Coordinate!T lhs, Coordinate!U rhs, V maxRelDiff, V maxAbsDiff) @nogc
     if (isNumeric!T && isNumeric!U && isFloatingPoint!V)
 {
         return std.math.operations.isClose(lhs.x, rhs.x, maxRelDiff, maxAbsDiff)
             && std.math.operations.isClose(lhs.y, rhs.y, maxRelDiff, maxAbsDiff);
 }
 
-unittest
+@nogc unittest
 {
     auto coord1 = Coordinate!float(1.0, 1.0);
     auto coord2 = Coordinate!float(1.0, 1.0);
@@ -39,14 +43,14 @@ unittest
 
 
 /// Ditto.
-bool isClose(T, U)(Point!T lhs, Point!U rhs)
+bool isClose(T, U)(Point!T lhs, Point!U rhs) @nogc
     if (isNumeric!T && isNumeric!U)
 {
     return std.math.operations.isClose(lhs.x, rhs.x)
         && std.math.operations.isClose(lhs.y, rhs.y);
 }
 
-unittest
+@nogc unittest
 {
     auto point1 = Point!float(1.0, 1.0);
     auto point2 = Point!float(1.0, 1.0);
@@ -55,7 +59,7 @@ unittest
 
 
 /// Ditto.
-bool isClose(T, U)(Triangle!T lhs, Triangle!U rhs)
+bool isClose(T, U)(Triangle!T lhs, Triangle!U rhs) @nogc
     if (isNumeric!T && isNumeric!U)
 {
     return isClose(lhs.x, rhs.x)
@@ -63,7 +67,7 @@ bool isClose(T, U)(Triangle!T lhs, Triangle!U rhs)
         && isClose(lhs.z, rhs.z);
 }
 
-unittest
+@nogc unittest
 {
     auto a = Triangle!float(
         Coordinate!float(0.0, 0.0),
@@ -79,7 +83,7 @@ unittest
 
 
 /// Ditto.
-bool isClose(T, U)(Rectangle!T lhs, Rectangle!U rhs)
+bool isClose(T, U)(Rectangle!T lhs, Rectangle!U rhs) @nogc
     if (isNumeric!T && isNumeric!U)
 {
     return isClose(lhs.min, rhs.min)
@@ -87,14 +91,14 @@ bool isClose(T, U)(Rectangle!T lhs, Rectangle!U rhs)
 }
 
 /// Ditto.
-bool isClose(T, U)(Line!T lhs, Line!U rhs)
+bool isClose(T, U)(Line!T lhs, Line!U rhs) @nogc
     if (isNumeric!T && isNumeric!U)
 {
     return isClose(lhs.start, rhs.start)
         && isClose(lhs.end, rhs.end);
 }
 
-unittest
+@nogc unittest
 {
     auto start = Coordinate!float(1.0, 2.0);
     auto end = Coordinate!float(3.0, 4.0);
@@ -106,7 +110,7 @@ unittest
 
 
 /// Ditto.
-bool isClose(T, U)(LineString!T lhs, LineString!U rhs)
+bool isClose(T, U)(LineString!T lhs, LineString!U rhs) @nogc
     if (isNumeric!T && isNumeric!U)
 {
     import std.range : zip;
@@ -140,7 +144,7 @@ unittest
 
 
 /// Ditto.
-bool isClose(T, U)(Polygon!T lhs, Polygon!U rhs)
+bool isClose(T, U)(Polygon!T lhs, Polygon!U rhs) @nogc
     if (isNumeric!T && isNumeric!U)
 {
     import std.range : zip;
@@ -181,7 +185,7 @@ unittest
 
 
 /// Ditto.
-bool isClose(T, U, V)(Point!T lhs, Point!U rhs, V maxRelDiff)
+bool isClose(T, U, V)(Point!T lhs, Point!U rhs, V maxRelDiff) @nogc
     if (isNumeric!T && isNumeric!U && isFloatingPoint!V)
 {
     return std.math.operations.isClose(lhs.x, rhs.x, maxRelDiff)
@@ -189,7 +193,7 @@ bool isClose(T, U, V)(Point!T lhs, Point!U rhs, V maxRelDiff)
 }
 
 /// Ditto.
-bool isClose(T, U, V)(Triangle!T lhs, Triangle!U rhs, V maxRelDiff)
+bool isClose(T, U, V)(Triangle!T lhs, Triangle!U rhs, V maxRelDiff) @nogc
     if (isNumeric!T && isNumeric!U && isFloatingPoint!V)
 {
     return isClose(lhs.x, rhs.x, maxRelDiff)
@@ -198,7 +202,7 @@ bool isClose(T, U, V)(Triangle!T lhs, Triangle!U rhs, V maxRelDiff)
 }
 
 /// Ditto.
-bool isClose(T, U, V)(Rectangle!T lhs, Rectangle!U rhs, V maxRelDiff)
+bool isClose(T, U, V)(Rectangle!T lhs, Rectangle!U rhs, V maxRelDiff) @nogc
     if (isNumeric!T && isNumeric!U && isFloatingPoint!V)
 {
     return isClose(lhs.min, rhs.min, maxRelDiff)
@@ -206,7 +210,7 @@ bool isClose(T, U, V)(Rectangle!T lhs, Rectangle!U rhs, V maxRelDiff)
 }
 
 /// Ditto.
-bool isClose(T, U, V)(Line!T lhs, Line!U rhs, V maxRelDiff)
+bool isClose(T, U, V)(Line!T lhs, Line!U rhs, V maxRelDiff) @nogc
     if (isNumeric!T && isNumeric!U && isFloatingPoint!V)
 {
     return isClose(lhs.start, rhs.start, maxRelDiff)
@@ -214,7 +218,7 @@ bool isClose(T, U, V)(Line!T lhs, Line!U rhs, V maxRelDiff)
 }
 
 /// Ditto.
-bool isClose(T, U, V)(LineString!T lhs, LineString!U rhs, V maxRelDiff)
+bool isClose(T, U, V)(LineString!T lhs, LineString!U rhs, V maxRelDiff) @nogc
     if (isNumeric!T && isNumeric!U && isFloatingPoint!V)
 {
     import std.range : zip;
@@ -229,7 +233,7 @@ bool isClose(T, U, V)(LineString!T lhs, LineString!U rhs, V maxRelDiff)
 }
 
 /// Ditto.
-bool isClose(T, U, V)(Polygon!T lhs, Polygon!U rhs, V maxRelDiff)
+bool isClose(T, U, V)(Polygon!T lhs, Polygon!U rhs, V maxRelDiff) @nogc
     if (isNumeric!T && isNumeric!U && isFloatingPoint!V)
 {
     import std.range : zip;
@@ -246,7 +250,7 @@ bool isClose(T, U, V)(Polygon!T lhs, Polygon!U rhs, V maxRelDiff)
 }
 
 /// Ditto.
-bool isClose(T, U, V)(Point!T lhs, Point!U rhs, V maxRelDiff, V maxAbsDiff)
+bool isClose(T, U, V)(Point!T lhs, Point!U rhs, V maxRelDiff, V maxAbsDiff) @nogc
     if (isNumeric!T && isNumeric!U && isFloatingPoint!V)
 {
     return std.math.operations.isClose(lhs.x, rhs.x, maxRelDiff, maxAbsDiff)
@@ -254,7 +258,7 @@ bool isClose(T, U, V)(Point!T lhs, Point!U rhs, V maxRelDiff, V maxAbsDiff)
 }
 
 /// Ditto.
-bool isClose(T, U, V)(Triangle!T lhs, Triangle!U rhs, V maxRelDiff, V maxAbsDiff)
+bool isClose(T, U, V)(Triangle!T lhs, Triangle!U rhs, V maxRelDiff, V maxAbsDiff) @nogc
     if (isNumeric!T && isNumeric!U && isFloatingPoint!V)
 {
     return isClose(lhs.x, rhs.x, maxRelDiff, maxAbsDiff)
@@ -263,7 +267,7 @@ bool isClose(T, U, V)(Triangle!T lhs, Triangle!U rhs, V maxRelDiff, V maxAbsDiff
 }
 
 /// Ditto.
-bool isClose(T, U, V)(Rectangle!T lhs, Rectangle!U rhs, V maxRelDiff, V maxAbsDiff)
+bool isClose(T, U, V)(Rectangle!T lhs, Rectangle!U rhs, V maxRelDiff, V maxAbsDiff) @nogc
     if (isNumeric!T && isNumeric!U && isFloatingPoint!V)
 {
     return isClose(lhs.min, rhs.min, maxRelDiff, maxAbsDiff)
@@ -271,7 +275,7 @@ bool isClose(T, U, V)(Rectangle!T lhs, Rectangle!U rhs, V maxRelDiff, V maxAbsDi
 }
 
 /// Ditto.
-bool isClose(T, U, V)(Line!T lhs, Line!U rhs, V maxRelDiff, V maxAbsDiff)
+bool isClose(T, U, V)(Line!T lhs, Line!U rhs, V maxRelDiff, V maxAbsDiff) @nogc
     if (is(T TT : real) && is(U UU : real) && isFloatingPoint!V)
 {
     return isClose(lhs.start, rhs.start, maxRelDiff, maxAbsDiff)
@@ -279,7 +283,7 @@ bool isClose(T, U, V)(Line!T lhs, Line!U rhs, V maxRelDiff, V maxAbsDiff)
 }
 
 /// Ditto.
-bool isClose(T, U, V)(LineString!T lhs, LineString!U rhs, V maxRelDiff, V maxAbsDiff)
+bool isClose(T, U, V)(LineString!T lhs, LineString!U rhs, V maxRelDiff, V maxAbsDiff) @nogc
     if (isNumeric!T && isNumeric!U && isFloatingPoint!V)
 {
     import std.range : zip;
@@ -294,7 +298,7 @@ bool isClose(T, U, V)(LineString!T lhs, LineString!U rhs, V maxRelDiff, V maxAbs
 }
 
 /// Ditto.
-bool isClose(T, U, V)(Polygon!T lhs, Polygon!U rhs, V maxRelDiff, V maxAbsDiff)
+bool isClose(T, U, V)(Polygon!T lhs, Polygon!U rhs, V maxRelDiff, V maxAbsDiff) @nogc
     if (isNumeric!T && isNumeric!U && isFloatingPoint!V)
 {
     import std.range : zip;

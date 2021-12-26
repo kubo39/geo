@@ -4,6 +4,10 @@ import std.traits : isFloatingPoint, isIntegral, isNumeric;
 import geo.types;
 private import geo.algorithm;
 
+@nogc:
+nothrow:
+pure:
+@safe:
 
 bool contains(T)(Point!T lhs, Coordinate!T coord)
     if (isNumeric!T)
