@@ -53,30 +53,55 @@ bool intersects(T)(Line!T line, Coordinate!T coord)
         && pointInRectangle(coord, line.start, line.end);
 }
 
+bool intersects(T)(Line!T line, Point!T point)
+    if (isNumeric!T)
+{
+    return line.intersects(point.coord);
+}
+
+bool intersects(T)(Coordinate!T lhs, Line!T rhs)
+    if (isNumeric!T)
+{
+    return rhs.intersects(lhs);
+}
+
+bool intersects(T)(Point!T lhs, Line!T rhs)
+    if (isNumeric!T)
+{
+    return rhs.intersects(lhs);
+}
+
 unittest
 {
-    auto p0 = Coordinate!float(2.0, 4.0);
+    auto p0 = Point!float(2.0, 4.0);
     // vertical line
-    auto line1 = Line!float(Coordinate!float(2.0, 0.0), Coordinate!float(2.0, 5.0));
+    auto line1 = Line!float(Point!float(2.0, 0.0), Point!float(2.0, 5.0));
     assert(line1.intersects(p0));
+    assert(p0.intersects(line1));
     // point on line, but outside line segment
-    auto line2 = Line!float(Coordinate!float(0.0, 6.0), Coordinate!float(1.5, 4.5));
+    auto line2 = Line!float(Point!float(0.0, 6.0), Point!float(1.5, 4.5));
     assert(!line2.intersects(p0));
+    assert(!p0.intersects(line2));
     // point on line
-    auto line3 = Line!float(Coordinate!float(0.0, 6.0), Coordinate!float(3.0, 3.0));
+    auto line3 = Line!float(Point!float(0.0, 6.0), Point!float(3.0, 3.0));
     assert(line3.intersects(p0));
+    assert(p0.intersects(line3));
     // point above line with positive slope
-    auto line4 = Line!float(Coordinate!float(1.0, 2.0), Coordinate!float(5.0, 3.0));
+    auto line4 = Line!float(Point!float(1.0, 2.0), Point!float(5.0, 3.0));
     assert(!line4.intersects(p0));
+    assert(!p0.intersects(line4));
     // point below line with positive slope
-    auto line5 = Line!float(Coordinate!float(1.0, 5.0), Coordinate!float(5.0, 6.0));
+    auto line5 = Line!float(Point!float(1.0, 5.0), Point!float(5.0, 6.0));
     assert(!line5.intersects(p0));
+    assert(!p0.intersects(line5));
     // point above line with negative slope
-    auto line6 = Line!float(Coordinate!float(1.0, 2.0), Coordinate!float(5.0, -3.0));
+    auto line6 = Line!float(Point!float(1.0, 2.0), Point!float(5.0, -3.0));
     assert(!line6.intersects(p0));
+    assert(!p0.intersects(line6));
     // point below line with negative slope
-    auto line7 = Line!float(Coordinate!float(1.0, 6.0), Coordinate!float(5.0, 5.0));
+    auto line7 = Line!float(Point!float(1.0, 6.0), Point!float(5.0, 5.0));
     assert(!line7.intersects(p0));
+    assert(!p0.intersects(line7));
 }
 
 private:
@@ -94,6 +119,13 @@ bool valueInBetween(T)(T value, T bound1, T bound2)
 }
 
 bool pointInRectangle(T)(Coordinate!T value, Coordinate!T bound1, Coordinate!T bound2)
+    if (isNumeric!T)
+{
+    return valueInBetween(value.x, bound1.x, bound2.x)
+        && valueInBetween(value.y, bound1.y, bound2.y);
+}
+
+bool pointInRectangle(T)(Point!T value, Coordinate!T bound1, Coordinate!T bound2)
     if (isNumeric!T)
 {
     return valueInBetween(value.x, bound1.x, bound2.x)
