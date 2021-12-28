@@ -56,10 +56,27 @@ bool intersects(T)(Line!T line, Coordinate!T coord)
 unittest
 {
     auto p0 = Coordinate!float(2.0, 4.0);
-    auto start = Coordinate!float(2.0, 0.0);
-    auto end = Coordinate!float(2.0, 5.0);
-    auto line = Line!float(start, end);
-    assert(line.intersects(p0));
+    // vertical line
+    auto line1 = Line!float(Coordinate!float(2.0, 0.0), Coordinate!float(2.0, 5.0));
+    assert(line1.intersects(p0));
+    // point on line, but outside line segment
+    auto line2 = Line!float(Coordinate!float(0.0, 6.0), Coordinate!float(1.5, 4.5));
+    assert(!line2.intersects(p0));
+    // point on line
+    auto line3 = Line!float(Coordinate!float(0.0, 6.0), Coordinate!float(3.0, 3.0));
+    assert(line3.intersects(p0));
+    // point above line with positive slope
+    auto line4 = Line!float(Coordinate!float(1.0, 2.0), Coordinate!float(5.0, 3.0));
+    assert(!line4.intersects(p0));
+    // point below line with positive slope
+    auto line5 = Line!float(Coordinate!float(1.0, 5.0), Coordinate!float(5.0, 6.0));
+    assert(!line5.intersects(p0));
+    // point above line with negative slope
+    auto line6 = Line!float(Coordinate!float(1.0, 2.0), Coordinate!float(5.0, -3.0));
+    assert(!line6.intersects(p0));
+    // point below line with negative slope
+    auto line7 = Line!float(Coordinate!float(1.0, 6.0), Coordinate!float(5.0, 5.0));
+    assert(!line7.intersects(p0));
 }
 
 private:
