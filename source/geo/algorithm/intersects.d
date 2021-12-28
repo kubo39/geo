@@ -55,10 +55,10 @@ bool intersects(T)(Line!T line, Coordinate!T coord)
 
 unittest
 {
-    auto p0 = Coordinate!double(2.0, 4.0);
-    auto start = Coordinate!double(2.0, 0.0);
-    auto end = Coordinate!double(2.0, 5.0);
-    auto line = Line!double(start, end);
+    auto p0 = Coordinate!float(2.0, 4.0);
+    auto start = Coordinate!float(2.0, 0.0);
+    auto end = Coordinate!float(2.0, 5.0);
+    auto line = Line!float(start, end);
     assert(line.intersects(p0));
 }
 
