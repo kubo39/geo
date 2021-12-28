@@ -6,9 +6,12 @@ public import geo.algorithm.contains;
 public import geo.algorithm.intersects;
 public import geo.types;
 
+nothrow:
+pure:
+@safe:
 
 /// Calculation of its length.
-auto euclideanLength(T)(Line!T line)
+auto euclideanLength(T)(Line!T line) @nogc
     if (isFloatingPoint!T)
 {
     import std.math.algebraic : hypot;
@@ -16,7 +19,7 @@ auto euclideanLength(T)(Line!T line)
 }
 
 /// Ditto.
-auto euclideanLength(T)(LineString!T linestring)
+auto euclideanLength(T)(LineString!T linestring) @nogc
     if (isFloatingPoint!T)
 {
     import std.algorithm : map, sum;
