@@ -104,6 +104,36 @@ unittest
     assert(!p0.intersects(line7));
 }
 
+bool intersects(T)(LineString!T linestring, Coordinate!T coord)
+    if (isNumeric!T)
+{
+    import std.algorithm : any;
+    return linestring
+        .lines()
+        .any!(line => line.intersects(coord));
+}
+
+bool intersects(T)(LineString!T linestring, Point!T point)
+    if (isNumeric!T)
+{
+    import std.algorithm : any;
+    return linestring
+        .lines()
+        .any!(line => line.intersects(point));
+}
+
+bool intersects(T)(Coordinate!T lhs, LineString!T rhs)
+    if (isNumeric!T)
+{
+    return rhs.intersects(lhs);
+}
+
+bool intersects(T)(Line!T lhs, LineString!T rhs)
+    if (isNumeric!T)
+{
+    return rhs.intersects(lhs);
+}
+
 private:
 
 bool valueInRange(T)(T value, T min, T max)
