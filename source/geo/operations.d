@@ -147,17 +147,15 @@ unittest
 bool isClose(T, U)(Polygon!T lhs, Polygon!U rhs) @nogc
     if (isNumeric!T && isNumeric!U)
 {
+    import std.algorithm : all;
     import std.range : zip;
     if (!isClose(lhs.exterior, rhs.exterior))
         return false;
     if (lhs.interiors.length != rhs.interiors.length)
         return false;
-    foreach (tup; lhs.interiors.zip(rhs.interiors))
-    {
-        if (!isClose(tup[0], tup[1]))
-            return false;
-    }
-    return true;
+    return lhs.interiors
+        .zip(rhs.interiors)
+        .all!(tup => isClose(tup.expand));
 }
 
 
