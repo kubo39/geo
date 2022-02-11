@@ -7,18 +7,20 @@ jobs:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
         dc: [dmd-latest, ldc-latest]
-
     runs-on: ${{ matrix.os }}
     steps:
       - uses: actions/checkout@v2
-
       - name: Install D Compiler
         uses: dlang-community/setup-dlang@v1
         with:
           compiler: ${{ matrix.dc }}
-
+      - uses: actions/cache@v2
+        with:
+          path: ~/.dub
+          key: ${{ matrix.dc }}-${{ matrix.os }}-dub-${{ hashFiles('**/dub.selections.json') }}
+          restore-keys: |
+            ${{ matrix.dc }}-${{ matrix.os }}-dub-
       - name: Initialize and update submodule
         run: git submodule init && git submodule update
-
       - name: Run tests
         run: dub -q test
